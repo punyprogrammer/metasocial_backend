@@ -58,17 +58,17 @@ router.get("/friends/:userId", async (req, res) => {
         return User.findById(friendId);
       })
     );
-    let friendlist = [];
+    let friendList = [];
     friends.map((friend) => {
       const { _id, userName, profilePicture } = friend;
-      friendlist.push({ _id, userName, profilePicture });
+      friendList.push({ _id, userName, profilePicture });
     });
-    res.status(200).json(friendlist);
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error);
+    res.status(200).json(friendList);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
+
 // follow a user
 router.put("/:id/follow", async (req, res) => {
   if (req.body.userId !== req.params.id) {
@@ -102,6 +102,7 @@ router.put("/:id/unfollow", async (req, res) => {
         await currUser.updateOne({ $pull: { followings: req.params.id } });
         res.status(200).json("user has been unfollowed");
       } else {
+        console.log(req.body);
         res.status(403).json("You dont follow this user!");
       }
     } catch (error) {
