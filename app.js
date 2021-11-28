@@ -8,7 +8,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path");
-const PORT=process.env.PORT||8080
+const PORT = process.env.PORT || 8080;
 //to allow using env files
 dotenv.config();
 //initialise app
@@ -25,6 +25,11 @@ mongoose.connect(
   }
 );
 //middleware
+app.use(express.static(path.join(__dirname, "socia_client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "socia_client/build", "index.html"));
+});
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(express.json());
 app.use(helmet());
