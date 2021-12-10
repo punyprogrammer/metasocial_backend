@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 dotenv.config();
 //initialise app
 const app = express();
+app.use(cors());
 //connect to the databse
 mongoose.connect(
   process.env.MONGO_URI,
@@ -51,12 +52,6 @@ app.post("/api/upload", upload.any(), (req, res) => {
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
-//using react as frontend
-app.use(express.static(path.join(__dirname, "/client/build")));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-});
 
 app.listen(PORT, () => {
   console.log("The server is running on port ", PORT);
