@@ -8,6 +8,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path");
+const cors=require("cors");
 const PORT = process.env.PORT || 5000;
 //to allow using env files
 dotenv.config();
@@ -24,6 +25,7 @@ mongoose.connect(
     console.log(`Connected to database`);
   }
 );
+app.use(cors())
 //middleware
 app.use(function (req, res, next) {
   res.header(
