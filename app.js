@@ -25,7 +25,12 @@ mongoose.connect(
     console.log(`Connected to database`);
   }
 );
-app.use(cors())
+app.use(cors({
+  methods: 'GET,POST,PATCH,DELETE,OPTIONS',
+  optionsSuccessStatus: 200,
+  origin: 'https://amarsocial.herokuapp.com'
+}));
+app.options('*', cors());
 //middleware
 app.use(function (req, res, next) {
   res.header(
