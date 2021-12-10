@@ -8,7 +8,7 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path");
-const cors=require("cors");
+const cors = require("cors");
 const PORT = process.env.PORT || 5000;
 //to allow using env files
 dotenv.config();
@@ -25,24 +25,7 @@ mongoose.connect(
     console.log(`Connected to database`);
   }
 );
-app.use(cors({
-  methods: 'GET,POST,PATCH,DELETE,OPTIONS',
-  optionsSuccessStatus: 200,
-  origin: 'https://amarsocial.herokuapp.com'
-}));
-app.options('*', cors());
-//middleware
-app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://amarsocial.herokuapp.com"
-  ); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 app.use(express.json());
 app.use(helmet());
@@ -68,6 +51,12 @@ app.post("/api/upload", upload.any(), (req, res) => {
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+//using react as frontend
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log("The server is running on port ", PORT);
