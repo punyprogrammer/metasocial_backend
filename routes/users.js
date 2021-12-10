@@ -15,8 +15,9 @@ router.put("/:id", async (req, res) => {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
-      });
-      res.status(200).json("Account has been updated!");
+      },{new:true});
+      const { password, ...others } = user._doc;
+      res.status(200).json(others);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -43,7 +44,7 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     //destructuring to remove unnecessary details
-    const { password, updatedAt, ...other } = user._doc;
+    const { password, ...other } = user._doc;
     res.status(200).json(other);
   } catch (error) {
     res.status(500).json(error);
