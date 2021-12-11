@@ -72,8 +72,12 @@ router.get("/:id", async (req, res) => {
 router.get("/timeline/:userId", async (req, res) => {
   let postArray = [];
   try {
-    const currentUser = await User.findById(req.params.userId);
-    const userPosts = await Post.find({ userId: currentUser._id });
+    const currentUser = await User.findById(req.params.userId).sort({
+      createdAt: "desc",
+    });
+    const userPosts = await Post.find({ userId: currentUser._id }).sort({
+      createdAt: "desc",
+    });
     const friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
         return Post.find({ userId: friendId });
@@ -88,7 +92,9 @@ router.get("/timeline/:userId", async (req, res) => {
 //get users all  posts
 router.get("/profile/:userId", async (req, res) => {
   try {
-    const posts = await Post.find({ userId: req.params.userId });
+    const posts = await Post.find({ userId: req.params.userId }).sort({
+      createdAt: "desc",
+    });
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);
