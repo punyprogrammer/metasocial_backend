@@ -74,7 +74,7 @@ router.put("/:id/comment", async (req, res) => {
   }
 });
 //get all comments of a post
-router.get("/:id/comment/", async (req, res) => {
+router.get("/:id/comment", async (req, res) => {
   try {
     const comments = await Post.findById(req.params.id).select("comments");
     res.status(500).json(comments);
