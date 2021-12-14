@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
+const searchRoute = require("./routes/search");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
@@ -52,6 +53,7 @@ app.post("/api/upload", upload.any(), (req, res) => {
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/search", searchRoute);
 
 app.listen(PORT, () => {
   console.log("The server is running on port ", PORT);
