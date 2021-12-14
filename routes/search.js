@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     });
     const userResults = await User.find({
       userName: { $regex: searchQuery, $options: "i" },
-    }).select("userName _id city profilePicture");
+    }).select("userName _id city from profilePicture");
     res
       .status(200)
       .json({
